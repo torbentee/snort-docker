@@ -1,3 +1,5 @@
+language: generic
+
 sudo: required
 
 services:
@@ -8,4 +10,4 @@ branches:
     - master
 
 install:
-  - docker build -t torbentee/snort .
+  - docker build --tag torbentee/snort .
