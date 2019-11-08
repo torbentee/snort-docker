@@ -1,0 +1,11 @@
+sudo: required
+
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+install:
+  - docker build -t torbentee/snort .
