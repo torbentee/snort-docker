@@ -1,0 +1,13 @@
+language: generic
+
+sudo: required
+
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+install:
+  - docker build --tag torbentee/snort .
