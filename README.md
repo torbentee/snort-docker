@@ -1,4 +1,4 @@
 # snort-docker
 Snort in a container. Uses the Ubuntu baseimage to get a Docker image with Snort
 
-![Docker Automated build](https://img.shields.io/docker/automated/torbentee/snort-docker)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/torbentee/snort-docker)
