@@ -1,5 +1,5 @@
 FROM phusion/baseimage:master-amd64 AS updated
-MAINTAINER Torben Tietze
+MAINTAINER torben.tietze@gmail.com
 
 # Update Ubuntu
 RUN apt-get update && apt-get --yes dist-upgrade
