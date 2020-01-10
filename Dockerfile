@@ -10,7 +10,7 @@ FROM updated AS builder
 
 # Variables
 ARG DAQ_URL=https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
-ARG SNORT_URL=https://www.snort.org/downloads/snort/snort-2.9.15.tar.gz
+ARG SNORT_URL=https://www.snort.org/downloads/snort/snort-2.9.15.1.tar.gz
 
 # Install dependencies
 RUN apt-get update && \
