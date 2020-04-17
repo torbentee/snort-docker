@@ -6,3 +6,5 @@
 *.md
 !README*.md
 README-secret.md
+
+*.pcap

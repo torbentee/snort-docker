@@ -1,4 +1,4 @@
-FROM phusion/baseimage:master-amd64 AS updated
+FROM ubuntu:bionic AS updated
 LABEL maintainer="torben.tietze@gmail.com"
 
 # Update Ubuntu
@@ -9,8 +9,8 @@ RUN apt-get update && apt-get --yes dist-upgrade
 FROM updated AS builder
 
 # Variables
-ARG DAQ_URL=https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
-ARG SNORT_URL=https://www.snort.org/downloads/snort/snort-2.9.15.1.tar.gz
+ARG DAQ_URL=https://www.snort.org/downloads/snort/daq-2.0.7.tar.gz
+ARG SNORT_URL=https://www.snort.org/downloads/snort/snort-2.9.16.tar.gz
 
 # Install dependencies
 RUN apt-get update && \
@@ -24,7 +24,11 @@ RUN apt-get update && \
   libpcre3-dev \
   libdumbnet-dev \
   zlib1g-dev \
-  libnghttp2-dev
+  libnghttp2-dev \
+  curl \
+  ca-certificates \
+  autotools-dev \
+  automake
 
 # Compile DAQ
 RUN curl --location ${DAQ_URL} | tar xz
@@ -39,14 +43,15 @@ RUN cd snort-* && ./configure --enable-sourcefire --disable-open-appid && make &
 FROM updated
 
 # Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
+#CMD ["/sbin/my_init"]
 
 # Install dependencies
-RUN apt-get install --yes --no-install-recommends \
+RUN apt-get update && apt-get install --yes --no-install-recommends \
   liblzma-dev \
   libssl-dev \
   libpcap-dev \
-  libdumbnet-dev
+  libdumbnet-dev \
+  libnghttp2-dev
 
 COPY --from=builder /daq*/sfbpf/.libs/libsfbpf.so /usr/local/lib/
 COPY --from=builder /usr/local/bin/snort /usr/local/bin/
@@ -57,3 +62,5 @@ RUN ldconfig
 RUN apt-get autoremove --yes && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENTRYPOINT ["snort","-l", "/var/log/snort/", "-c", "/etc/snort/snort.conf", "-r", "/etc/snort/a.pcap", "--process-all-events"]
