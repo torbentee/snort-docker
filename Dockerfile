@@ -63,4 +63,6 @@ RUN apt-get autoremove --yes && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ENTRYPOINT ["snort","-l", "/var/log/snort/", "-c", "/etc/snort/snort.conf", "-r", "/etc/snort/a.pcap", "--process-all-events"]
+#RUN mkdir -p /etc/snort && touch /etc/snort/snort.conf /etc/snort/a.pcap
+
+ENTRYPOINT ["snort","-l", "/var/log/snort/", "-c", "/etc/snort/snort.conf", "-r", "/etc/snort/a.pcap", "--process-all-events", "-N", "-x"]
